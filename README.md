@@ -2,8 +2,6 @@
 
 ## Overview
 This project is a highly scalable and maintainable e-commerce system built using ASP.NET Core 8, Clean Architecture, and Microservices. Each service follows domain-driven design (DDD) principles and is deployed as an independent unit, ensuring flexibility and resilience.
-
-![Image](https://github.com/user-attachments/assets/77a29d23-b8e9-4967-975d-ff43b27a3424)
 ---
 
 ## Technologies Used
@@ -111,41 +109,5 @@ Each service operates independently and communicates through RabbitMQ (event-dri
 - Each service runs inside a Docker container
 - Docker Compose is used to manage multi-container setup
 
----
 
-## How to Run Locally
-### Clone the repository:
-```bash
-git clone https://github.com/mostafasharaby/E-Commerce-Microservices.git
-cd ecommerce-microservices
-```
-### Build and run with Docker:
-```bash
-docker-compose up --build
-docker-compose-redis up --build
-
-```
-### Access services via API Gateway:
-```
-http://localhost:5279/api/products
-http://localhost:5211/orders
-```
-### Run unit tests:
-```bash
-dotnet test
-```
-
----
-
-## Contributing
-We welcome contributions! Follow these steps:
-1. Fork the repository
-2. Create a new branch (`feature-branch`)
-3. Commit your changes
-4. Submit a pull request
-
----
-
-## Author
-**Mostafa Sharaby**
 
