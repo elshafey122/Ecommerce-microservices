@@ -1,0 +1,154 @@
+{
+  "Routes": [
+    {
+      // products
+      "DownstreamPathTemplate": "/api/Products/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5279
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Products/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post","Delete","Update" ],
+      "RateLimitOptions": {
+        "ClientWhitelist": [ "02da07f5-74db-4d9b-a957-c8febe11466e" ],  // only client allow not have rate limit for request with this header
+        "EnableRateLimiting": true,
+        "Period": "1m",
+        "PeriodTimespan": 60,
+        "Limit": 3
+      },
+      "FileCacheOptions": {       // allow cashing the request and the routing service reserved in this time and then it expires and forward service again and then cashing it 
+        "Region": "products",     // name of the cashing region that can be used in other routing and then we can cashing the request in this region and then it expires after 10 seconds and then forward the request to service again and then cashing it again
+        "TtlSeconds": 10
+      },
+      "AuthenticationOptions": {                 // allow ocelot to handle authentication for this routing before forward it to specific service 
+        "AuthenticationProviderKey": "Bearer",
+        "AllowedScopes": []
+      },
+      "AddHeadersToRequest": { //Adds a custom HTTP header to every request forwarded to the downstream service Your downstream service can check this header to know the call came through Ocelot. for more secure that request to downstream service came only by api gateway 
+        "ApiGateWay": "true"
+      },
+      "HttpHandlerOptions": { "UseTracing": true }
+    },
+    {
+      // orders/
+      "DownstreamPathTemplate": "/api/Orders/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5193
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Orders/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+
+      "FileCacheOptions": {
+        "Region": "orders",
+        "TtlSeconds": 10
+      },
+      "AddHeadersToRequest": {
+        "ApiGateWay": true // listen to only ApiGateWay
+      },
+      "HttpHandlerOptions": { "UseTracing": true }
+    },
+
+    {
+      // payment
+      "DownstreamPathTemplate": "/api/Payments/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5146
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Payments/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+
+      "FileCacheOptions": {
+        "Region": "Payments",
+        "TtlSeconds": 10
+      },
+      "AddHeadersToRequest": {
+        "ApiGateWay": true 
+      },
+      "HttpHandlerOptions": { "UseTracing": true }
+    },
+    {
+      // auth 
+      "DownstreamPathTemplate": "/api/Account/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5089
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Account/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post" ]
+
+    },
+    {
+      // cart 
+      "DownstreamPathTemplate": "/api/Carts/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5033
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Carts/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "AddHeadersToRequest": {
+        "ApiGateWay": "true"
+      }
+    },
+    {
+      // WishList 
+      "DownstreamPathTemplate": "/api/Wishlists/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5109
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Wishlists/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post" ]
+
+      //"AddHeadersToRequest": {
+      //  "ApiGateWay": "true"
+      //}
+    },
+
+    {
+      // inventory 
+      "DownstreamPathTemplate": "/api/Inventory/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5140
+        }
+      ],
+      "UpstreamPathTemplate": "/api/Inventory/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "AddHeadersToRequest": {
+        "ApiGateWay": "true" 
+      }
+
+    }
+  ],
+  "GlobalConfiguration": {
+    "RateLimitOptions": {
+      "ClientIdHeader": "ClientId", // that make in headers in postman Like that : ClientId: 02da07f5-74db-4d9b-a957-c8febe11466e
+      "QuotaExceededMessage": "Too many requests! Please try again later.",
+      "RateLimitCounterPrefix": "ocelot",
+      "HttpStatusCode": 429
+    }
+  }
+}
