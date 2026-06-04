@@ -1,7 +1,7 @@
 # E-Commerce Microservices Architecture
 
 ## Overview
-This project is a highly scalable and maintainable e-commerce system built using ASP.NET Core 8, Clean Architecture, and Microservices. Each service follows domain-driven design (DDD) principles and is deployed as an independent unit, ensuring flexibility and resilience.
+This project is a highly scalable and maintainable e-commerce system built using ASP.NET Core 8, Clean Architecture, and Microservices.
 ---
 
 ## Technologies Used
